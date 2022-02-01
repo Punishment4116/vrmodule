@@ -1,122 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!--
-      This is the page head - it contains info the browser uses to display the page
-      You won't see what's in the head in the page
-      Scroll down to the body element for the page content
-    -->
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
-
-    <!-- 
-      This is an HTML comment
-      You can write text in a comment and the content won't be visible in the page
-    -->
 
     <title>Hello World!</title>
 
-    <!-- Import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css" />
-
     <!-- Import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
     
+    <!-- AFRAME script -->
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
+
+    <!-- Objekte greifen, bewegen (ohne Cursor) 
+    <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>-->
+    <!-- ??? -->
     <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>  
-  
-        <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.js"></script>
+    <!-- ??? -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <!-- ??? -->
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <!-- Physik der Umwelt und Objekte -->
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.js"></script>
+    <!--<script src="https://raw.githubusercontent.com/gearcoded/aframe-physics-system/master/dist/aframe-physics-system.js"></script>-->
+    <!-- ??? -->
     <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
-    <script>
-     AFRAME.registerComponent('capture-mouse', {
-        init: function () {
-          this.eventRepeater = this.eventRepeater.bind(this)
-          this.el.sceneEl.addEventListener('loaded', () => {
-            this.el.sceneEl.canvas.addEventListener('mousedown', this.eventRepeater)
-            this.el.sceneEl.canvas.addEventListener('mouseup', this.eventRepeater)
-            this.el.sceneEl.canvas.addEventListener('touchstart', this.eventRepeater)
-            this.el.sceneEl.canvas.addEventListener('touchmove', this.eventRepeater)
-            this.el.sceneEl.canvas.addEventListener('touchend', this.eventRepeater)
-          }, {once: true})
-        },
-        eventRepeater: function (evt) {
-          if (evt.type.startsWith('touch')) {
-            evt.preventDefault()
-            // avoid repeating touchmove because it interferes with look-controls
-            if (evt.type === 'touchmove') { return }
-          }
-          this.el.emit(evt.type, evt.detail)
-        }
-      })
-    </script>
-    <script>
+
+    <!--<script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>-->
     
-    AFRAME.registerComponent('hello-world', {
-      init: function () {
-        console.log('Hello, World!');
-      }
-    });
-    </script>
-    <script>
-    AFRAME.registerComponent('event-manager', {
-    init: function () {
-      console.log("enter")
-      let btn = document.querySelector("#basketbutton"); // Get the button from the page
-      //btn.addEventListener('click', this.onClick);
-      // Detect clicks on the button
-      if (btn) {
-        console.log("button found")
-        btn.pressed = function() {
-          // The JS works in conjunction with the 'dipped' code in style.css
-          console.log("button clicked");
-          btn.material.color="red";
-        };
-      }
-    },
+  
+  <script src="/script.js" defer></script>
 
-    bindMethods: function () {
-      this.onClick = this.onClick.bind(this);
-    },
-
-    onClick: function (evt) {
-      console.log("button clicked");
-      var targetEl = evt.target;
-      if (targetEl === this.boxButtonEl ||
-          targetEl === this.sphereButtonEl ||
-          targetEl === this.torusButtonEl) {
-        this.boxButtonEl.removeState('pressed');
-        this.sphereButtonEl.removeState('pressed');
-        this.torusButtonEl.removeState('pressed');
-        this.boxGeometryEl.object3D.visible = false;
-        this.sphereGeometryEl.object3D.visible = false;
-        this.torusGeometryEl.object3D.visible = false;
-        this.buttonToGeometry[targetEl.id].object3D.visible = true;
-      }
-
-      if (targetEl === this.darkModeButtonEl) {
-        if (this.el.sceneEl.is('starry')) {
-          targetEl.setAttribute('button', 'label', 'Dark Mode');
-          this.el.sceneEl.setAttribute('environment', {preset: 'default'});
-          this.el.sceneEl.removeState('starry');
-        } else {
-          targetEl.setAttribute('button', 'label', 'Light Mode');
-          this.el.sceneEl.setAttribute('environment', {preset: 'starry'});
-          this.el.sceneEl.addState('starry');
-        }
-      } else {
-        targetEl.addState('pressed');
-      }
-    }
-  });
-    </script>
   </head>
   <body>
-    <a-scene physics="gravity: -9.8; restitution: 0.6; debug:false">
+    <a-scene id="turnhalle" physics="gravity: -9.8; restitution: 0.6; debug:true;">
       <a-assets>
         <img id="ground" src="https://cdn.glitch.me/b7648798-1956-4bbb-8794-179a94db798c/floor%20(2).jpg?v=1640621102757">
         <img id="wall" src="https://cdn.glitch.me/b7648798-1956-4bbb-8794-179a94db798c/1773a9c41136622aa9feeb03ef62ad31.jpg?v=1640622733181">
@@ -124,75 +41,73 @@
         <img id="ball" src="https://cdn.glitch.me/b7648798-1956-4bbb-8794-179a94db798c/basketball-texture-free-vector.png?v=1640636500237">
         <img id="metal" src="https://cdn.glitch.me/b7648798-1956-4bbb-8794-179a94db798c/metal.png?v=1640690964450">
         
-        <a-mixin id="basketball" geometry="primitive: sphere; radius: 0.35"
-         hoverable grabbable stretchable draggable droppable
-         event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
-         event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"
-         material="src: #ball" shadow>
-        </a-mixin>
-      
-        <a-mixin id="button" geometry="primitive: box"
-         hoverable clickable draggable
-         event-set__pressed="_event: grab-start; material.color: blue"
-         event-set__released="_event: grab-end; material.color: white"
-         shadow
-        ></a-mixin>
-        
         <a-asset-item id="pipe" src="https://cdn.glitch.global/b7648798-1956-4bbb-8794-179a94db798c/pipe.obj?v=1641392000859"></a-asset-item>
         <a-asset-item id="pipe-mtl" src="https://cdn.glitch.global/b7648798-1956-4bbb-8794-179a94db798c/pipe.mtl?v=1641392000859"></a-asset-item>
       </a-assets>
       
-      <a-entity camera dynamic-body look-controls wasd-controls="acceleration: 500" position="0 1 1"
-                capture-mouse
-                raycaster cursor="rayOrigin:mouse"
-                body="type: static; shape: sphere; sphereRadius: 0.001"
-                super-hands="colliderEvent: raycaster-intersection;
-                             colliderEventProperty: els;
-                             colliderEndEvent:raycaster-intersection-cleared;
-                             colliderEndEventProperty: clearedEls;">
-      </a-entity>
+      <!-- Cursor und Kamera -->
+      <a-camera player-monitor id="player" position="0 1.6 3" look-controls="pointerLockEnabled: true;" wasd-controls="acceleration:500">
+        <a-entity cursor="fuse: true; fuseTimeout: 500;"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                  material="color: black; shader: flat">
+        </a-entity>
+        <!--<a-entity cursor="fuse: true; fuseTimeout: 500;"
+                  position =" 0 0 -1"
+                  geometry="primitive: sphere; radius: 0.35"
+                  material="src: #ball">
+        </a-entity>-->
+      </a-camera>
+
+      <!-- weiße Testbox -->
+      <a-box startbutton id="test" position="5 5 5" scale="2 2 2"></a-box>
       
+      <!-- VR Integration -->
       <a-entity vive-controls="hand: left"></a-entity>
       <a-entity vive-controls="hand: right"></a-entity>
     
+      <!-- Boden -->
       <a-plane src="#ground" scale="250 250 1" repeat="25 25 1" rotation="-90 0 0" static-body></a-plane>
       
+      <!-- vordere Wand -->
       <a-box position="0 10 -20" scale="50 20 1" repeat="5 2 1" src="#wall" static-body></a-box>
     
+      <!-- linker Korb -->
       <a-entity basketballkorb links>
         <a-cylinder static-body color="crimson" material="metalness:0.25" position="-15 3 -15" height="10" radius="0.1"></a-cylinder>
         <a-box static-body color="white" position="-15 7 -15" scale="5 3 0.25" src="#board"></a-box>
         <a-torus static-body="shape: mesh" color="crimson" material="metalness:0.25" position="-15 6.1 -13.25" arc="0" rotation="-90" radius="1.5" radius-tubular="0.04"></a-torus>
       </a-entity>
       
+      <!-- mittlerer Korb -->
       <a-entity basketballkorb mitte>
         <a-cylinder static-body color="crimson" material="metalness:0.25" position="-0 3 -15" height="10" radius="0.1"></a-cylinder>
         <a-box static-body color="white" position="0 7 -15" scale="5 3 0.25" src="#board"></a-box>
         <a-torus static-body="shape: mesh" color="crimson" material="metalness:0.25" position="0 6.1 -13.25" arc="0" rotation="-90" radius="1.5" radius-tubular="0.04"></a-torus>
       </a-entity>
       
+      <!-- rechter Korb -->
       <a-entity basketballkorb rechts>
         <a-cylinder static-body color="crimson" material="metalness:0.25" position="15 3 -15" height="10" radius="0.1"></a-cylinder>
         <a-box static-body color="white" position="15 7 -15" scale="5 3 0.25" src="#board"></a-box>
         <a-torus static-body="shape: mesh" color="crimson" material="metalness:0.25" position="15 6.1 -13.25" arc="0" rotation="-90" radius="1.5" radius-tubular="0.04"></a-torus>
       </a-entity>
     
+      <!-- Maschine zum Ballauswurf -->
       <a-entity dispenser>
         <a-box static-body position="-5 2.5 0" scale="2 5 2" src="#metal" repeat="2 5 2"></a-box>
-        <a-obj-model pin-monitor color="grey" id="pipe-entity" static-body="shape:mesh" obj-model="obj: #pipe; mtl: #pipe-mtl" position="-3 1.5 0" rotation="0 -90" scale="1.5 1.5 1.5"></a-obj-model>
-        <a-entity id="basketbutton" mixin="button" position="-4 0.75" scale="0.5 0.25 0.5" material="color: red"
-            ></a-entity>
+        <a-obj-model static-body="shape: mesh" pipe color="grey" id="pipe-entity"  obj-model="obj: #pipe; mtl: #pipe-mtl" position="-3 1.5 0" rotation="0 -90" scale="1.5 1.5 1.5"></a-obj-model>
+        
       </a-entity>
-    
+      <a-box spawnbutton id="basketbutton" position="-5 1.5 1.15" scale="0.75 0.45 0.3" material="color: red"></a-box>
+      <!-- rechte Wand -->
       <a-box position="50 10 20" scale="1 20 40" repeat="5 2 1" src="#wall" static-body></a-box>
     
-      <a-torus static-body="shape: mesh" color="crimson" material="metalness:0.25" position="0 1.1 -5.25" arc="0" rotation="-90" radius="1.5" radius-tubular="0.04"></a-torus>
+      <!--test korb-->
+      <a-torus id="torus" abc static-body="shape: mesh" color="crimson" material="metalness:0.25" position="0 1.1 -5.25" arc="0" rotation="-90" radius="1.5" radius-tubular="0.04"></a-torus>
     
-      <a-entity class="basketball" mixin="basketball" position="0 1 -2.5" dynamic-body="linearDamping: 0.05; mass: 0.01" src="#ball"></a-entity>
-      
-                  <a-entity position="0 0 3" scale=".6 .6 .6">
-              
-            </a-entity>
+      <!-- ball -->
+      <a-sphere id="basketball" position="-3 3 0" radius="0.35" material="src: #ball" dynamic-body="linearDamping: 0.05; mass: 0.01" src="#ball"></a-sphere>
     </a-scene>
   </body>
 </html>
